@@ -1,0 +1,218 @@
+Steganography using Image File (File Concatenation Method) 
+Step-by-Step Procedure 
+1. Open Notepad. 
+2. Type some secret text. 
+3. Click File → Save As. 
+4. Save the file as text1.txt. 
+5. Create another Notepad file and save it as text2.txt. 
+6. Select both text1.txt and text2.txt. 
+7. Right-click → Add to archive. 
+8. Create secret.rar (or secret.zip). 
+9. Copy an image file (example: image.jpg) into the same folder. 
+10. Press Windows + R, type cmd, press Enter. 
+11. Use cd command to navigate to the folder: 
+cd Desktop\Steg 
+12. Type the following command and press Enter: 
+copy /b image.jpg + secret.rar newimage.jpg 
+13. Check that newimage.jpg is created. 
+14. Open newimage.jpg — image should open normally. 
+15. Rename newimage.jpg to newimage.rar. 
+16. Open newimage.rar and extract files. 
+17. Verify that text1.txt and text2.txt are recovered. 
+File Header Reference (Do NOT skip in record) 
+● JPG → FF D8 FF E0 
+● PNG → 89 50 4E 47 
+● BMP → 42 4D 5A 52
+● GIF → 47 49 46 38
+
+✅
+EXPERIMENT 2 
+Hiding Text in Audio using Spectrogram 
+Step-by-Step Procedure (NO SKIPS) 
+1. Open MS Paint. 
+2. Click File → New. 
+3. Fill background with black color. 
+4. Select Text Tool (A). 
+5. Choose white color. 
+6. Type the secret message clearly. 
+7. Click File → Save As → BMP Picture. 
+8. Save as message.bmp. 
+9. Open Coagula Light software. 
+10. Click File → Open. 
+11. Select message.bmp. 
+12. Click Render menu. 
+13. Select Render without stereo (Mono). 
+14. Wait for rendering to complete. 
+15. Click File → Save Sound. 
+16. Save file as output.wav. 
+17. Open Sonic Visualiser. 
+18. Click File → Open. 
+19. Select output.wav. 
+20. Click Layer → Add Spectrogram. 
+21. Adjust frequency and contrast if needed. 
+22. Observe the hidden text appearing in the spectrogram. 
+
+
+ ENCRYPTION (Hiding the message) 
+
+ Corrected & Safe Version 
+from PIL import Image 
+ 
+img = Image.open("your_image.png").convert("RGB") 
+pixels = img.load() 
+ 
+message = input("Enter the message to be hidden: ") 
+msg = message + "#"   # delimiter 
+ 
+bits = ''.join(format(ord(c), '08b') for c in msg) 
+ 
+max_bits = img.width * img.height 
+if len(bits) > max_bits: 
+    raise ValueError("Message too long for this image") 
+ 
+i = 0 
+for y in range(img.height): 
+    for x in range(img.width): 
+        if i < len(bits): 
+            r, g, b = pixels[x, y] 
+            r = (r & ~1) | int(bits[i])   # modify LSB of red channel 
+            pixels[x, y] = (r, g, b) 
+            i += 1 
+        else: 
+            break 
+ 
+img.save("stego.png") 
+print("Message hidden successfully!") 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ DECRYPTION (Extracting the message) 
+
+ Corrected & Safe Version 
+from PIL import Image 
+ 
+img = Image.open("stego.png") 
+pixels = img.load() 
+ 
+bits = "" 
+for y in range(img.height): 
+    for x in range(img.width): 
+        bits += str(pixels[x, y][0] & 1)  # extract LSB from red 
+channel 
+ 
+msg = "" 
+for i in range(0, len(bits), 8): 
+    char = chr(int(bits[i:i+8], 2)) 
+    if char == "#": 
+        break 
+    msg += char 
+ 
+print("Hidden message:", msg)
+
+Task1: http application data 
+Capture  and analyze packet using HTTP Traffic 
+1. Open a new web browser window or tab 
+Clear web browser cache /cookies/temporary files ctrl+shift+del 
+2. Start a Wireshark capture on the Wi-Fi interface or any applicable interface 
+3. Navigate to http://www.example.com 
+4. Close the web browser window or tab 
+5. Stop the Wireshark capture 
+6. Apply the filter http. 
+7. Click on HTTP-----200 OK (text/html> 
+8. Click on line-based text data (The entire format of the page will be visible) 
+Or 
+9. Right Click on HTTP-----200 OK (text/html--->Follow->Http stream(The entire format of 
+the page will be visible). 
+10. Hence it is not secure. 
+To show three way handshake in HTTP 
+Capture  and analyze packet using HTTP Traffic 
+11. Open a new web browser window or tab 
+Clear web browser cache /cookies/temporary files ctrl+shift+del 
+12. Start a Wireshark capture on the Wi-Fi interface or any applicable interface 
+13. Navigate to http://www.example.com 
+14. Close the web browser window or tab 
+15. Stop the Wireshark capture 
+16.Apply the filter http. 
+Right Click on HTTP , follow TCP you can  the three way handshake  
+
+
+
+First 3 messages are TCP handshake 3 way messages 
+1. SYN message 
+1. SYN Flags is set to 1 (expand TCP and then FLAGS) 
+2. SYN+ACK message 
+1. ACK Flags is set to 1 
+2. SYN Flags is set to 1 
+3. ACK Message 
+1. ACK Flags is set to 1 
+Task2: http’s application data 
+Capture  and analyze packet using HTTP’s Traffic 
+Open a new web browser window or tab 
+Clear web browser cache /cookies/temporary files ctrl+shift+del 
+Start a Wireshark capture on the Wi-Fi interface or any applicable interface 
+Navigate to https://www.example.com 
+Close the web browser window or tab 
+Stop the Wireshark capture 
+Apply the filter ssl. 
+Click on tlsv1.2 Application data->SSL and check the message is encrypted.(hence secure)
+
+
+Task 3:To show three way handshake in HTTPS 
+Capture  and analyze packet using HTTP’s Traffic 
+Open a new web browser window or tab 
+Clear web browser cache /cookies/temporary files ctrl+shift+del 
+Start a Wireshark capture on the Wi-Fi interface or any applicable interface 
+Navigate to https://www.example.com 
+Close the web browser window or tab 
+Stop the Wireshark capture 
+Apply the filter ssl. 
+Right Click on tlsv1.2 Application data,follow TCP you can check the three way 
+handshake  
+First 3 messages are TCP handshake 3 way messages 
+SYN message 
+SYN Flags is set to 1 (expand TCP and then FLAGS) 
+SYN+ACK message 
+ACK Flags is set to 1 
+SYN Flags is set to 1 
+ACK Message 
+ACK Flags is set to 1 
+
+
+Capture  and analyze packet using DNS 
+Open any website that involves DNS 
+Open Wireshark ->Use filter  DNS/ UDP 
+Check the query Standard query 0xe06b A www.example.com 
+Click on Domain Name System->queries 
+Check  Standard query response 0xe06b A www.example.com CNAME 
+www.example.com-v4.edgesuite.net CNAME a1422.dscr.akamai.net A 23.32.39.53 A 
+23.32.39.41(Standard query number and Standard query response number should 
+match which is 0xe06b in this case.) 
+Click on Domain Name System->queries,Answers 
+Open any website that involves DNS 
+Open Wireshark ->Use filter  DNS/ UDP 
+Check the query Standard query  A www.example.com 
+Check the corresponding response  
+Click on Domain Name System->queries and check response or Answers 
+Check the resolved IP address of the Domain 
+
+
+
+Analyze ICMP Packets Using Wireshark 
+1. Open Wireshark and select the active network interface (Ethernet or Wi-Fi). 
+2. Start packet capture by double-clicking the selected interface. 
+3. Generate ICMP traffic by opening Command Prompt/Terminal and running: 
+4. ping www.google.com 
+5. Stop the capture after a few packets using the red stop button. 
+6. Apply display filter in Wireshark: 
+7. icmp 
+8. Select an ICMP packet and check the Info column for Echo Request and Echo Reply. 
+9. Analyze packet details: 
+o IP header → Source and Destination IP 
+o ICMP header → Type (8: Request, 0: Reply, 
+10. Match request and reply using Identifier and Sequence Number. 
+11. Record observations and conclude successful ICMP packet capture and analysis.
