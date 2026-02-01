@@ -53,9 +53,6 @@ Step-by-Step Procedure (NO SKIPS)
 22. Observe the hidden text appearing in the spectrogram. 
 
 
- ENCRYPTION (Hiding the message) 
-
- Corrected & Safe Version 
 from PIL import Image 
  
 img = Image.open("your_image.png").convert("RGB") 
@@ -113,6 +110,7 @@ for i in range(0, len(bits), 8):
     msg += char 
  
 print("Hidden message:", msg)
+
 
 Task1: http application data 
 Capture  and analyze packet using HTTP Traffic 
